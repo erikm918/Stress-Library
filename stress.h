@@ -57,16 +57,16 @@ class strainCircle : public mohrsCircle {
 
 YieldStress findStresses();
 
-template <typename T>
+template <class T>
 double normalStress(T shape);
 
-template <typename T>
+template <class T>
 double torsion(T shape);
 
-template <typename T>
+template <class T>
 double hoopStress(T shape);
 
-template <typename T>
+template <class T>
 double longStress(T shape);
 
 

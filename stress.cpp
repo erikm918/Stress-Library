@@ -124,7 +124,7 @@ YieldStress findStresses() {
 }
 
 // Normal stress of a shape given an applied load.
-template <typename T>
+template <class T>
 double normalStress(T shape) {
     double area = shape.area();
     double load;
@@ -137,7 +137,7 @@ double normalStress(T shape) {
 }
 
 // Torsional stress of a shape for a given torque.
-template <typename T>
+template <class T>
 double torsion(T shape) {
     double radius;
     double appliedTorque;
@@ -160,7 +160,7 @@ double torsion(T shape) {
     radius divided by the thickness of the wall. Also catches if the shape cannot be considered a pressure vessel
     i.e. it is a solid shape.
 */
-template <typename T>
+template <class T>
 double hoopStress(T shape) {
     double pressure;
     double thickness;
@@ -185,7 +185,7 @@ double hoopStress(T shape) {
     pressure vessel (currently only pipes fit this definition and this is because they may function the same as
     a cylinder if needed). 
 */
-template <typename T>
+template <class T>
 double longStress(T shape) {
     double stress;
     double pressure;
