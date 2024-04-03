@@ -122,3 +122,85 @@ YieldStress findStresses() {
     
     return thisYield;
 }
+
+// Normal stress of a shape given an applied load.
+template <typename T>
+double normalStress(T shape) {
+    double area = shape.area();
+    double load;
+
+    std::cout << "Enter applied load: " << std::endl;
+    std::cin >> load;
+
+    double stress = load/area;
+    return stress;
+}
+
+// Torsional stress of a shape for a given torque.
+template <typename T>
+double torsion(T shape) {
+    double radius;
+    double appliedTorque;
+
+    if (shape.name == "Rod") {
+        radius = shape.getRadius();
+    }
+    else if (shape.name == "Pipe") {
+        radius = shape.getMeanRadius();
+    }
+
+    std::cout << "Enter applied torque: " << std::endl;
+    std::cin >> appliedTorque;
+
+    return (appliedTorque * radius) / shape.pmInertia();
+}
+
+/*
+    Determines the hoop stress of a pressure vessel. Dtermined by the pressure applied to the interior times the
+    radius divided by the thickness of the wall. Also catches if the shape cannot be considered a pressure vessel
+    i.e. it is a solid shape.
+*/
+template <typename T>
+double hoopStress(T shape) {
+    double pressure;
+    double thickness;
+
+    if (shape.name == "Pipe") {
+        std::cout << "Enter pressure: " << std::endl;
+        std::cin >> pressure;
+
+        thickness = shape.getThickness();
+
+        return (pressure * shape.getRadius()) / thickness;
+    }
+    else {
+        std::cout << "ERROR: Pressure cannot be determined for this shape." << std::endl;
+        return 0;
+    }
+}
+
+/*
+    Longitudinal/axial stress of a pressure vessel. Determined by taking the hoop stress and deviding it by 
+    two (by definition the axial stress is half the hoop stress). Checks to see if the shape can be considered a 
+    pressure vessel (currently only pipes fit this definition and this is because they may function the same as
+    a cylinder if needed). 
+*/
+template <typename T>
+double longStress(T shape) {
+    double stress;
+    double pressure;
+    double thickness;
+
+    if (shape.name == "Pipe") {
+        std::cout << "Enter pressure: " << std::endl;
+        std::cin >> pressure;
+
+        thickness = shape.getThickness();
+
+        return (pressure * shape.getRadius()) / (2 * thickness);
+    }
+    else {
+        std::cout << "ERROR: Pressure cannot be determined for this shape." << std::endl;
+        return 0;
+    }
+}

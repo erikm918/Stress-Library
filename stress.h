@@ -10,7 +10,7 @@
 #include <thread>
 #include <mutex>
 
-std::mutex stressTheoryMTX;
+static std::mutex stressTheoryMTX;
 
 struct Tensor {
     double sigmaXX, sigmaYY, sigmaZZ, tauXY;
@@ -40,7 +40,7 @@ class mohrsCircle {
         virtual std::queue<double> getPrincipals() {return this->principalValues;}
 
         // Will implement during GUI stage
-        virtual void drawCircle();
+        // virtual void drawCircle();
 };
 
 class stressCircle : public mohrsCircle {
@@ -56,5 +56,18 @@ class strainCircle : public mohrsCircle {
 };
 
 YieldStress findStresses();
+
+template <typename T>
+double normalStress(T shape);
+
+template <typename T>
+double torsion(T shape);
+
+template <typename T>
+double hoopStress(T shape);
+
+template <typename T>
+double longStress(T shape);
+
 
 #endif
